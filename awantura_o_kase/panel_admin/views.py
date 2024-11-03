@@ -179,7 +179,8 @@ def login(request):
                 return rendering(request)
             elif user and user.username == "test":
                 login_user(request, user)
-                return HttpResponseRedirect("http://localhost:5173/")
+                return HttpResponseRedirect("http://192.168.0.233:5173/")
+                #return HttpResponseRedirect("http://localhost:5173/")
             elif user and user.username == "stream":
                 login_user(request, user)
                 return redirect("stream_panel")
