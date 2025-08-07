@@ -1,6 +1,10 @@
 # Awantura o kasę
 Projekt jest w oparciu o teleturniej "Awantura o kasę". Napisany jest za pomocą Python i Django
 
+## Nieaktualna sekcja, projekt jest w fazie zmiany na inny framework 
+
+Aby uruchomić aktualny projekt, pobierz flask oraz sqlalchemy
+
 # Uruchomienie aplikacji
 
 ## Wymagania
