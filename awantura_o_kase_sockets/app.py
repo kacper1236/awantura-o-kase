@@ -8,7 +8,7 @@ from routes.round_routes import register_round_socketio_handlers
 from routes.team_routes import register_team_socketio_handlers
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///example.db'  # lub Twoja baza
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///awantura_o_kase.db'
 
 db.init_app(app)
 socketio = SocketIO(app, cors_allowed_origins="*")

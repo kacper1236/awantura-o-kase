@@ -71,7 +71,7 @@ def change_bidded(db, team):
     else:
         raise ValueError(f"Competitor {team} not found in the database.")
     
-def change_onevsone(db, team):
+def change_onevsone(db, team:list[str]):
     for i in team:
         competitor = db.session.query(Competitor).filter_by(name = i).first()
         if competitor:

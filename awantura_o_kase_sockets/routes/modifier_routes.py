@@ -166,7 +166,40 @@ def register_modifier_socketio_handlers(socketio):
         if not is_playing(db, team1) or not is_playing(db, team2):
             emit('error', {'error': 'One or both teams are not playing'})
             return
-        emit('todo', {'message': 'Step 2 logic not yet implemented'})
 
+    @socketio.on('one_vs_one_step_3')
+    def handle_one_vs_one_step_3(data):
+        team1 = data.get('team1')
+        team2 = data.get('team2')
+        winner = data.get('winner')
 
-#dopisać etap 3 na 1 na 1 oraz resetowanie flaci 1 na 1
+        if not winner:
+            emit('error', {'error': 'Winner cannot be empty'})
+            return
+        if winner not in [team1, team2]:
+            emit('error', {'error': 'Winner must be one of the teams'})
+            return
+        if not team1 or not team2:
+            emit('error', {'error': 'Team names cannot be empty'})
+            return
+        if team1 == team2:
+            emit('error', {'error': 'Teams cannot be the same'})
+            return
+        if not is_playing(db, team1) or not is_playing(db, team2):
+            emit('error', {'error': 'One or both teams are not playing'})
+            return
+        try:
+            with db.session.begin_nested():
+                reset_temp_money(db, team1)
+                reset_temp_money(db, team2)
+                change_onevsone(db, [team1, team2])
+                if winner == team1:
+                    add_money(db, team1)
+                else:
+                    add_money(db, team2)
+            db.session.commit()
+            emit('one_vs_one_completed', {'message': 'One vs One challenge completed successfully', 'teams': [team1, team2]}, broadcast=True)   
+        except Exception as e:
+            db.session.rollback()
+            emit('error', {'error': str(e)})
+
